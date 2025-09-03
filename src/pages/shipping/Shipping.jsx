@@ -65,7 +65,7 @@ const Shipping = () => {
     };
 
     return (
-        <div className="max-w-lg mx-auto p-6 mt-4 bg-white shadow rounded-lg">
+        <div className="max-w-lg mx-auto p-6 bg-white shadow rounded-lg mt-6 mb-16">
             <Link to='/cart'>
                 <button className='px-2 py-2 bg-blue-700 text-white rounded-full'>  <ArrowLeft size={22} /></button>
             </Link>
