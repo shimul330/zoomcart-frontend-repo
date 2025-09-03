@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+
+.active{
+    @apply border-b-2 border-blue-700
+}
