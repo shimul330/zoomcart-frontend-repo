@@ -19,7 +19,7 @@ const Footer = () => {
         const info = ({ fullName, email, message })
 
         try {
-            const res = await axios.post("http://localhost:3000/contact", info);
+            const res = await axios.post("https://zoomcart-server-side.vercel.app/contact", info);
 
             if (res.data.success) {
                 setStatus("Message sent successfully!");

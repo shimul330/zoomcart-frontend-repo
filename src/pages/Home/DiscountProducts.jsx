@@ -15,7 +15,7 @@ const DiscountProducts = () => {
     const { data: products, isLoading, isError, error } = useQuery({
         queryKey: ["discount-products"],
         queryFn: async () => {
-            const res = await axios.get("http://localhost:3000/discount-products");
+            const res = await axios.get("https://zoomcart-server-side.vercel.app/discount-products");
             return res.data;
         },
     });

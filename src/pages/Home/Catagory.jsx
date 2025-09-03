@@ -8,7 +8,7 @@ const Catagory = () => {
     const { data: categories, isLoading, isError, error } = useQuery({
         queryKey: ["categories"],
         queryFn: async () => {
-            const res = await axios.get("http://localhost:3000/categories");
+            const res = await axios.get("https://zoomcart-server-side.vercel.app/categories");
             return res.data;
         },
     });

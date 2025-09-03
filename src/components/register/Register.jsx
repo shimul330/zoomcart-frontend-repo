@@ -65,7 +65,7 @@ const Register = () => {
                 };
           
 
-            const res = await axios.post("http://localhost:3000/users", userData);
+            const res = await axios.post("https://zoomcart-server-side.vercel.app/users", userData);
 
             console.log("Server Response:", res.data);
             console.log(result)

@@ -31,13 +31,13 @@ const router = createBrowserRouter([
             {
                 path: 'products',
                 Component: products,
-                loader: () => fetch('http://localhost:3000/products')
+                loader: () => fetch('https://zoomcart-server-side.vercel.app/products')
 
             },
             {
                 path: 'products/:id',
                 element: <ProductDetailsPage />,
-                loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`)
+                loader: ({ params }) => fetch(`https://zoomcart-server-side.vercel.app/products/${params.id}`)
             },
             {
                 path: 'cart',

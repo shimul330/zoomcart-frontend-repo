@@ -25,7 +25,7 @@ export const CartProvider = ({ children }) => {
             if (!currentUser) return;
             const token = await currentUser?.getIdToken();
 
-            const res = await axios.get(`http://localhost:3000/cart/${user.email}`, {
+            const res = await axios.get(`https://zoomcart-server-side.vercel.app/cart/${user.email}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -55,14 +55,14 @@ export const CartProvider = ({ children }) => {
 
             const { _id, ...rest } = medicine;
             const item = { email: user.email, ...rest, productId: _id };
-            const res = await axios.post('http://localhost:3000/cart', item, {
+            const res = await axios.post('https://zoomcart-server-side.vercel.app/cart', item, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
 
             if (res.data.insertedId) {
-                const updated = await axios.get(`http://localhost:3000/cart/${user.email}`, {
+                const updated = await axios.get(`https://zoomcart-server-side.vercel.app/cart/${user.email}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -91,7 +91,7 @@ export const CartProvider = ({ children }) => {
             if (!currentUser) return;
             const token = await currentUser?.getIdToken();
 
-            await axios.delete(`http://localhost:3000/cart/${id}`, {
+            await axios.delete(`https://zoomcart-server-side.vercel.app/cart/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

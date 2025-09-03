@@ -48,7 +48,7 @@ const Shipping = () => {
             if (!currentUser) return;
             const token = await currentUser?.getIdToken();
 
-            await axios.post('http://localhost:3000/order', orderedData,{
+            await axios.post('https://zoomcart-server-side.vercel.app/order', orderedData,{
                 headers:{
                     Authorization: `Bearer ${token}`
                 }
