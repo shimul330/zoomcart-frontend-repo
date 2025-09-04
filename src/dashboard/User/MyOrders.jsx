@@ -7,49 +7,39 @@ import toast from 'react-hot-toast';
 import { getAuth } from 'firebase/auth';
 
 const MyOrders = () => {
-    const axiosSucure = useAxiosSecure();
+    const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
     // TanStack Query to fetch orders by user email
-    const { data: orders, isLoading, isError, error } = useQuery({
+    const { data: orders = [], isLoading } = useQuery({
         queryKey: ['userOrders', user?.email],
         queryFn: async () => {
             if (!user?.email) return [];
             try {
                 const auth = getAuth();
                 const currentUser = auth?.currentUser;
-                if (!currentUser) return;
+                if (!currentUser) return [];
                 const token = await currentUser?.getIdToken();
-                const res = await axiosSucure(`/users/order/${user?.email}`, {
+                const res = await axiosSecure(`/users/order/${user?.email}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
                 return res.data;
             } catch (err) {
-                toast.error(`Error fetching user orders: ${err.message}`);
-                throw new Error(err.response?.data?.message || err.message || "Failed to fetch orders");
+                console.error('Error fetching user orders:', err);
+                toast.error(`Failed to fetch orders`);
+                return []; 
             }
         },
         enabled: !!user?.email
     });
 
-
-
     if (isLoading) return (
         <div className="flex justify-center items-center min-h-screen">
             <HashLoader />
         </div>
-    )
-
-    if (isError) return (
-        <div className="flex justify-center items-center min-h-screen">
-            <p className="text-red-500 text-lg">
-                {error.response?.data?.message || "Something went wrong!"}
-            </p>
-        </div>
     );
-
 
     return (
         <div className="max-w-6xl mx-auto p-4">
@@ -67,7 +57,7 @@ const MyOrders = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {orders?.length === 0 ? (
+                        {orders.length === 0 ? (
                             <tr>
                                 <td colSpan={5} className="text-center py-4 text-gray-500">
                                     No orders found
@@ -85,13 +75,13 @@ const MyOrders = () => {
                                     <td className="py-3 px-4">
                                         <span
                                             className={`px-2 py-1 rounded-full text-white text-sm ${order?.status === 'Pending'
-                                                ? 'bg-yellow-500'
-                                                : order?.status === 'Completed'
-                                                    ? 'bg-green-600'
-                                                    : 'bg-gray-400'
+                                                    ? 'bg-yellow-500'
+                                                    : order?.status === 'Completed'
+                                                        ? 'bg-green-600'
+                                                        : 'bg-gray-400'
                                                 }`}
                                         >
-                                            {order.status}
+                                            {order.status || 'Pending'}
                                         </span>
                                     </td>
                                 </tr>
