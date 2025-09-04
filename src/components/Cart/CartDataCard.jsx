@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import useRole from "../../hooks/useRole";
 
 const CartDataCard = ({ item, removeFromCart }) => {
     const navigate = useNavigate();
     const { user } = useAuth();
+    const [role, isRoleLoading] = useRole();
 
     const { _id, name, price, discount, category, stock, photos } = item;
    
@@ -137,7 +139,7 @@ const CartDataCard = ({ item, removeFromCart }) => {
                     </button>
 
                     <button
-                        disabled={!user}
+                        disabled={!user || role !=="user"}
                         onClick={handleCheckout}
                         className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
                     >

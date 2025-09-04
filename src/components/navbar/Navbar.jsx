@@ -1,10 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ShoppingCart } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { useCart } from '../../contaxts/CartContext/CartContext';
+import useRole from '../../hooks/useRole';
+
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +14,15 @@ const Navbar = () => {
     const navigate = useNavigate();
     const { user, logOut } = useAuth();
     const { cartItems, clearCart } = useCart();
-   
+    const [role, isRoleLoading] = useRole();
+
+
+
+    useEffect(() => {
+        if (!isRoleLoading && role !== "user") {
+            clearCart(); // cart clear
+        }
+    }, [role, isRoleLoading, clearCart]);
 
     const handleLogOut = async () => {
         try {
@@ -22,9 +32,13 @@ const Navbar = () => {
             navigate('/');
         } catch (error) {
             toast.error("Logout failed!");
-            
+
         }
     };
+
+
+    const cartCount = (!isRoleLoading && role === "user") ? cartItems.length : 0;
+
 
 
     // Desktop menu list
@@ -53,9 +67,9 @@ const Navbar = () => {
                     {/* Cart */}
                     <NavLink to='/cart' className="relative hover:text-indigo-600 flex items-center gap-1">
                         <ShoppingCart size={22} />
-                        {cartItems.length > 0 && (
+                        {cartCount > 0 && (
                             <span className="absolute top-[-5px] right-[-10px] bg-red-500 text-white text-xs px-2 rounded-full">
-                                {cartItems.length}
+                                {cartCount}
                             </span>
                         )}
                     </NavLink>

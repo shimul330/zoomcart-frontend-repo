@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCart } from '../../contaxts/CartContext/CartContext';
 import CartDataCard from './CartDataCard';
+import useRole from '../../hooks/useRole';
+import { HashLoader } from 'react-spinners';
 
 const CartPage = () => {
-    const { cartItems, removeFromCart, } = useCart();
+    const { cartItems, removeFromCart, clearCart } = useCart();
+    const [role, isRoleLoading] = useRole();
+    useEffect(() => {
+        
+        if (!isRoleLoading && role !== "user") {
+            clearCart();
+        }
+    }, [role, isRoleLoading, clearCart]);
+
+    if (isRoleLoading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <HashLoader size={50} color="#3B82F6" />
+            </div>
+        );
+    }
+
     return (
         <div className="p-4 mt-3 mb-16">
             <h2 className="text-xl font-bold text-center mb-2">🛒 Your Cart</h2>

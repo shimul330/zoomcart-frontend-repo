@@ -1,6 +1,6 @@
 
 
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect, useCallback } from "react";
 
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
@@ -75,10 +75,9 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    const clearCart = () => {
+    const clearCart = useCallback(() => {
         setCartItems([]);
-    };
-
+    }, []);
 
 
     // CART DELETE
