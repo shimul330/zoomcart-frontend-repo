@@ -25,7 +25,7 @@ const ManageOrders = () => {
                 });
                 return res.data || [];
             } catch (err) {
-                // যদি 404 হয়, তাহলে toast দেখাবে না
+                
                 if (!err.response || err.response.status !== 404) {
                     const message = err?.response?.data?.message || err.message || "Something went wrong";
                     toast.error(message);
