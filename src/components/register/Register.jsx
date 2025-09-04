@@ -67,14 +67,11 @@ const Register = () => {
 
             const res = await axios.post("https://zoomcart-server-side.vercel.app/users", userData);
 
-            console.log("Server Response:", res.data);
-            console.log(result)
             toast.success("Registration Successful ✅");
             reset();
             setProfilePic("");
             navigate("/")
         } catch (error) {
-            console.error(error.message);
            toast.error("Registration failed ❌: " + error.message);
         }
     };

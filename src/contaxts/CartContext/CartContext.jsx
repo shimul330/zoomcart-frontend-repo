@@ -14,7 +14,6 @@ export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const { user } = useAuth();
 
-    console.log(cartItems)
     // Fetch Cart Items
     const fetchCart = async () => {
         if (!user?.email) return;

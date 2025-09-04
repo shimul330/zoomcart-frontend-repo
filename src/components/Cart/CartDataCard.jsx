@@ -7,7 +7,7 @@ const CartDataCard = ({ item, removeFromCart }) => {
     const { user } = useAuth();
 
     const { _id, name, price, discount, category, stock, photos } = item;
-    console.log(item)
+   
 
     const [quantity, setQuantity] = useState(1);
     const [currentPhoto, setCurrentPhoto] = useState(0);

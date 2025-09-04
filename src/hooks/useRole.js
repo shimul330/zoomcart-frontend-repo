@@ -3,6 +3,7 @@ import useAuth from './useAuth'
 import useAxiosSecure from './useAxiosSecure';
 import { useQuery } from "@tanstack/react-query";
 import { getAuth } from 'firebase/auth';
+import toast from 'react-hot-toast';
 
 const useRole = () => {
     const { user, loading } = useAuth();
@@ -26,8 +27,9 @@ const useRole = () => {
                 })
                 return data;
             } catch (err) {
-                console.log(err)
-                throw err;
+                
+             const message = err.message;
+             toast.error(message);
 
             }
         }

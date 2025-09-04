@@ -25,8 +25,9 @@ const ManageOrderTable = ({ order, idx }) => {
                 });
                 return res.data;
             } catch (err) {
-                console.log(err);
-                throw err;
+                const message = err.message;
+                toast.error(message)
+                
             }
         },
         onSuccess: () => {
