@@ -3,32 +3,33 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import { HashLoader } from 'react-spinners';
-import toast from 'react-hot-toast';
 import { getAuth } from 'firebase/auth';
+import toast from 'react-hot-toast';
 
 const MyOrders = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
-    // TanStack Query to fetch orders by user email
     const { data: orders = [], isLoading } = useQuery({
         queryKey: ['userOrders', user?.email],
         queryFn: async () => {
             if (!user?.email) return [];
+
             try {
                 const auth = getAuth();
                 const currentUser = auth?.currentUser;
                 if (!currentUser) return [];
-                const token = await currentUser?.getIdToken();
+
+                const token = await currentUser.getIdToken();
                 const res = await axiosSecure(`/users/order/${user?.email}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                    headers: { Authorization: `Bearer ${token}` }
                 });
-                return res.data;
+                return res.data || [];
             } catch (err) {
-                console.error('Error fetching user orders:', err);
-                toast.error(`Failed to fetch orders`);
+                
+                if (!err.response || err.response.status !== 404) {
+                   toast.error("Failed to fetch orders:", err.message);
+                }
                 return []; 
             }
         },
@@ -44,7 +45,6 @@ const MyOrders = () => {
     return (
         <div className="max-w-6xl mx-auto p-4">
             <h2 className="text-2xl font-bold mb-6 text-center">My Orders</h2>
-
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white rounded-lg shadow">
                     <thead className="bg-white">
@@ -81,7 +81,7 @@ const MyOrders = () => {
                                                         : 'bg-gray-400'
                                                 }`}
                                         >
-                                            {order.status || 'Pending'}
+                                            {order.status}
                                         </span>
                                     </td>
                                 </tr>

@@ -113,10 +113,13 @@ const ManageProducts = () => {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                return data;
+                return data || [];
             } catch (err) {
-                const message = err?.response?.data?.message || err.message || "Something went wrong";
-                toast.error(message)
+                if (!err.response || err.response.status !== 404) {
+                    const message = err?.response?.data?.message || err.message || "Something went wrong";
+                    toast.error(message);
+                }
+                return []; 
             }
         }
     })
