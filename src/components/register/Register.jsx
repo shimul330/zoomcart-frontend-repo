@@ -55,15 +55,15 @@ const Register = () => {
             await updateUserProfile(userProfile);
 
             // Step 3: Save user in backend
-         
-                const userData = {
-                    name: data.name,
-                    email: data.email,
-                    password: data.password,  
-                    role: "user",
-                    photo: profilePic,
-                };
-          
+
+            const userData = {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                role: "user",
+                photo: profilePic,
+            };
+
 
             const res = await axios.post("https://zoomcart-server-side.vercel.app/users", userData);
 
@@ -72,7 +72,7 @@ const Register = () => {
             setProfilePic("");
             navigate("/")
         } catch (error) {
-           toast.error("Registration failed ❌: " + error.message);
+            toast.error("Registration failed ❌: " + error.message);
         }
     };
 
@@ -134,8 +134,12 @@ const Register = () => {
                         </label>
                         <input
                             type="password"
-                            {...register("password", { required: true, minLength: 6 })}
-                            placeholder="Enter your password"
+                            {...register("password", {
+                                required: true,
+                                minLength: 8,
+                                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+                            })}
+                            placeholder="Enter a strong password"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                         />
                         {errors.password?.type === "required" && (
@@ -143,7 +147,12 @@ const Register = () => {
                         )}
                         {errors.password?.type === "minLength" && (
                             <p className="text-red-500">
-                                Password must be at least 6 characters
+                                Password must be at least 8 characters
+                            </p>
+                        )}
+                        {errors.password?.type === "pattern" && (
+                            <p className="text-red-500">
+                                Password must include uppercase, lowercase, number & special character
                             </p>
                         )}
                     </div>
