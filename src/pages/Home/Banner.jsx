@@ -13,7 +13,7 @@ const Banner = () => {
   const bannerImages = [banner1, banner2, banner3];
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <Swiper
         pagination={{ clickable: true }}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
